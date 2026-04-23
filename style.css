@@ -140,13 +140,13 @@ button:hover {
     line-height: 1.5;
 }
 
-#reward-links {
+#games-links {
     display: none;
     margin-top: 20px;
     text-align: center;
 }
 
-#reward-links button {
+#games-links button {
     margin: 8px;
     padding: 12px 20px;
     border-radius: 10px;

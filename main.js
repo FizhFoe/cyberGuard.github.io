@@ -75,7 +75,7 @@ let timer;
 
 function initGame() {
     hp = 100;
-    time = 30;
+    time = 60;
     // score = 0;
     document.getElementById('start-btn').style.display = 'none';
     document.getElementById('action-buttons').style.display = 'grid';

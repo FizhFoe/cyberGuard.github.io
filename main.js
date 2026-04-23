@@ -2,57 +2,74 @@ const scenarios = [
     {
         text: "Um amigo no Discord enviou-te um ficheiro dizendo que é um cheat para teres skins grátis no Fortnite.",
         solutions: ["antivirus", "delete"],
-        info: "Boa! Nunca confies em ficheiros diretos! Ou apagas por segurança ou fazes scan com o antivirus"
+        info: "Nunca abras ficheiros suspeitos. Faz scan ou apaga."
     },
     {
         text: "Estás no centro comercial e queres entrar na tua conta da PSN usando o Wi-Fi público da malta.",
         solutions: ["vpn"],
-        info: "Oxi! Nunca te ligues a redes públicas sem proteção! Usar VPN é a melhor solução para proteger os teus dados."
+        info: "Redes públicas são perigosas. Usa VPN para proteger dados."
     },
     {
         text: "Disseram o teu IP numa stream e agora alguém está a tentar bloquear a tua ligação para te tirar do jogo!",
         solutions: ["firewall", "antivirus"],
-        info: "Acertaste! A firewall serve como uma barreira para proteger a tua rede. O antivirus atua após algum tipo de intrusão ou suspeita."
+        info: "Firewall bloqueia ataques; antivirus deteta ameaças."
     },
     {
         text: "Vais enviar uma foto do teu Cartão de Cidadão para o suporte e não queres que nenhum hacker a consiga ler.",
         solutions: ["encryption"],
-        info: "Parabens, queres um truque? algum tipo de código que só a outra pessoa saiba, para abrir documentos importantes e te proteger.",
+        info: "Encriptação protege dados com acesso seguro."
     },
     {
         text: "Fizeste download de um jogo pirateado e agora o teu telemóvel está bué lento e com apps estranhas.",
         solutions: ["antivirus"],
-        info: "Tu sabes! Desconfia sempre de apps e sites que te apresentem mensagens duvidosas e apelativas. E verifica sempre comentários e avaliações do que vais instalar."
+        info: "Downloads ilegais podem conter malware. Verifica sempre."
     },
     {
         text: "Queres ver uma série que só dá na Netflix dos EUA sem que saibam que estás em Portugal.",
         solutions: ["vpn"],
-        info: "Não contes a ninguem! A VPN muda a tua localização para qualquer parte do mundo, aumentando não só a tua segurança, mas também permite ver conteúdos não acessíveis em Portugal."
+        info: "VPN oculta localização e melhora privacidade online."
     },
     {
         text: "Um bot está a tentar forçar a entrada no teu router, testando mil passwords por segundo.",
         solutions: ["firewall", "antivirus"],
-        info: "Lixou agora."
+        info: "Ataques de força bruta exigem proteção ativa."
     },
     {
         text: "Queres que as tuas mensagens diretas (DMs) fiquem totalmente privadas e ilegíveis para intrusos.",
         solutions: ["encryption"],
-        info: "Damnnn! Encriptação serve para baralhar e dificultar o acesso indevido a qualquer tipo de dados. Por isso, já sabes, usa sempre aplicações que oferecem proteção end-to-end ou encriptada."
+        info: "Encriptação garante mensagens privadas e seguras."
     },
     {
         text: "Recebeste uma mensagem a dizer que a tua encomenda da 'Vinted' está retida e pede para clicares num link estranho.",
         solutions: ["antivirus", "delete"],
-        info: "Links em mensagens são usados para roubar passwords. O melhor é nunca clicar e apagar logo!"
+        info: "Phishing usa links falsos. Não cliques e apaga."
+    },
+    {
+        text: "Recebeste um email a dizer que a tua conta do Instagram vai ser bloqueada e pedem para fazer login num link.",
+        solutions: ["delete", "antivirus"],
+        info: "Isto é phishing. Nunca faças login de links suspeitos."
+    },
+    {
+        text: "Um site pede-te para instalares um programa para 'acelerar a tua internet' gratuitamente.",
+        solutions: ["antivirus", "delete"],
+        info: "Softwares milagrosos são quase sempre malware."
+    },
+    {
+        text: "Estás a jogar online e alguém pede-te a tua password para 'dar skins grátis'.",
+        solutions: ["delete"],
+        info: "Nunca partilhes passwords. Nem com amigos."
+    },
+    {
+        text: "Recebeste uma pen USB de alguém desconhecido e ligaste ao teu PC por curiosidade.",
+        solutions: ["antivirus"],
+        info: "Dispositivos desconhecidos podem conter vírus perigosos."
     }
 ];
 
-
 let hp = 100;
-// let score = 0;
 let active = null;
 let canPlay = false;
 let lastScenario = null;
-// let maxScore = 200;
 let time = 60;
 let timer;
 
@@ -142,22 +159,38 @@ function updateUI() {
 }
 
 function end(win = false) {
+    clearInterval(timer);
+    let msg = "";
     if (win) {
-        document.getElementById('scenario-text').innerText = "Missão Completa! SISTEMA SEGURO!";
-        document.getElementById('msg').innerText = "Parabéns! Antigiste " + score + " pontos."
-        // adicionar butoes apos ganhar para os outros jogos
-        document.getElementById('games-links').style.display = 'block';
+        if (hp >= 75) {
+            msg = "🟢 SISTEMA MUITO SEGURO! Excelente defesa!";
+        }
+        else if (hp >= 50) {
+            msg = "🟡 SISTEMA MODERADAMENTE SEGURO. Ainda resistente.";
+        }
+        else {
+            msg = "🟠 SISTEMA GANHOU O JOGO MAS FICOU FRACO!";
+        }
     } else {
-        document.getElementById('scenario-text').innerText = "SISTEMA COMPROMETIDO! ";
-        document.getElementById('msg').innerText = "GAME OVER!!! Tenta Outra vez, ou experimenta um dos jogos em baixo.";
-        document.getElementById('games-links').style.display = 'block';
+        if (hp <= 0) {
+            msg = "🔴 SISTEMA COMPROMETIDO! Hackers ganharam controlo.";
+        }
+        else if (hp < 50) {
+            msg = "🟠 SISTEMA CAIU QUASE POR COMPLETO!";
+        }
+        else {
+            msg = "🟡 FALHA CRÍTICA DETETADA!";
+        }
     }
+
+    document.getElementById('scenario-text').innerText = win ? "Missão Completa!" : "Game Over!!";
+    document.getElementById('msg').innerText = msg;
+
     document.getElementById('start-btn').style.display = 'block';
-    document.getElementById('start-btn').innerText = "RECOMEÇAR TREINO";
+    document.getElementById('start-btn').innerText = "Jogar Novamente";
     document.getElementById('action-buttons').style.display = 'none';
     document.getElementById('score').style.display = 'none';
 
-    clearInterval(timer);
 
     active = null;
     canPlay = false;

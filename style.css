@@ -122,6 +122,11 @@ button {
     color: black;
 }
 
+.btn-delete {
+    background-color: #fff;
+    color: black;
+}
+
 button:hover {
     filter: brightness(1.2);
     transform: translateY(-2px);

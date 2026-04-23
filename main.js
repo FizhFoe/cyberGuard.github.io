@@ -121,9 +121,11 @@ function play(choice) {
     if (active.solutions.includes(choice)) {
         // hp += 25;
         hp = Math.min(100, hp + 25);
+        // conso.log("HP: ", hp);
         showMsg(active.info, varName('--neon-green'));
     } else {
         hp -= 25;
+        // conso.log("HP: ", hp);
         showMsg("ERRO! Essa escolha deixou o sistema vulnerável. 💀", varName('--neon-red'));
     }
 

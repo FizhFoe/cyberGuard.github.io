@@ -52,6 +52,7 @@ let score = 0;
 let active = null;
 let canPlay = false;
 let lastScenario = null;
+let maxScore = 200;
 
 function initGame() {
     hp = 100; score = 0;
@@ -96,12 +97,17 @@ function play(choice) {
     active.used.push(choice);
 
     if (active.solutions.includes(choice)) {
-        score += 25;
+        score += 200;
         showMsg(active.info + " +25 pontos", varName('--neon-green'));
     } else {
         hp -= 25;
         showMsg("ERRO! Essa escolha deixou o sistema vulnerável. 💀", varName('--neon-red'));
     }
+
+    updateUI();
+
+    if (score >= maxScore) 
+        return end(true);
 
     // se já encontrou todas as respostas certas OU errou
     const allCorrectFound =
@@ -110,14 +116,12 @@ function play(choice) {
     if (allCorrectFound || hp <= 0) {
         canPlay = false;
     }
-
-    updateUI();
-
-    // AGORA AVANÇA: Espera 3 segundos para o jogador ler o feedback antes do próximo
-    setTimeout(() => {
-        if (hp > 0) next();
-        else end();
-    }, 5000);
+        
+        // AGORA AVANÇA: Espera 3 segundos para o jogador ler o feedback antes do próximo
+        setTimeout(() => {
+            if (hp > 0) next();
+            else end();
+        }, 4000);
 }
 
 function showMsg(txt, color) {
@@ -131,12 +135,21 @@ function updateUI() {
     document.getElementById('score').innerText = "PONTOS: " + score;
 }
 
-function end() {
-    document.getElementById('scenario-text').innerText = "SISTEMA COMPROMETIDO! 🤡";
-    document.getElementById('msg').innerText = "A tua pontuação final: " + score;
+function end(win = false) {
+    if (win){
+        document.getElementById('scenario-text').innerText = "Missão Completa! SISTEMA SEGURO!";
+        document.getElementById('msg').innerText = "Parabéns! Antigiste " + score + " pontos."
+        // adicionar butoes apos ganhar para os outros jogos
+        document.getElementById('games-links').style.display = 'block';
+    } else {
+        document.getElementById('scenario-text').innerText = "SISTEMA COMPROMETIDO! ";
+        document.getElementById('msg').innerText = "A tua pontuação final: " + score;
+        document.getElementById('games-links').style.display = 'none';
+    }
     document.getElementById('start-btn').style.display = 'block';
     document.getElementById('start-btn').innerText = "RECOMEÇAR TREINO";
     document.getElementById('action-buttons').style.display = 'none';
+    document.getElementById('score').style.display = 'none';
     active = null;
     canPlay = false;
 }

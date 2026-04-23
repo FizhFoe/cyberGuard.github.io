@@ -27,7 +27,7 @@ const scenarios = [
     {
         text: "Queres ver uma série que só dá na Netflix dos EUA sem que saibam que estás em Portugal.",
         solutions: ["vpn"],
-        info: "Shhhh! Não contes a ninguem. A VPN muda a tua localização para qualquer parte do mundo, aumentando não só a tua segurança, mas também permite ver conteúdos não acessíveis em Portugal."
+        info: "Não contes a ninguem! A VPN muda a tua localização para qualquer parte do mundo, aumentando não só a tua segurança, mas também permite ver conteúdos não acessíveis em Portugal."
     },
     {
         text: "Um bot está a tentar forçar a entrada no teu router, testando mil passwords por segundo.",
@@ -48,21 +48,26 @@ const scenarios = [
 
 
 let hp = 100;
-let score = 0;
+// let score = 0;
 let active = null;
 let canPlay = false;
 let lastScenario = null;
-let maxScore = 200;
+// let maxScore = 200;
+let time = 60;
+let timer;
 
 function initGame() {
-    hp = 100; score = 0;
+    hp = 100;
+    time = 60;
+    // score = 0;
     document.getElementById('start-btn').style.display = 'none';
     document.getElementById('action-buttons').style.display = 'grid';
     document.getElementById('stats-bar').style.display = 'flex';
     document.getElementById('msg').innerText = "";
-    document.getElementById('ready-title').style.display = 'none';
+    // document.getElementById('ready-title').style.display = 'none';
     document.getElementById('how-to').style.display = 'none';
     updateUI();
+    startTimer();
     next();
 }
 
@@ -73,11 +78,11 @@ function next() {
 
     active = scenarios[Math.floor(Math.random() * scenarios.length)];
 
-    active.used =[];
+    active.used = [];
 
     // Escolhe um cenário aleatório
     document.getElementById('scenario-text').innerText = active.text;
-    if (active.solutions.length > 1){
+    if (active.solutions.length > 1) {
         document.getElementById('msg').innerText = "Atenção: cenário com mais proteções!!";
     } else {
         document.getElementById('msg').innerText = "Escolhe a melhor defesa...";
@@ -97,8 +102,8 @@ function play(choice) {
     active.used.push(choice);
 
     if (active.solutions.includes(choice)) {
-        score += 200;
-        showMsg(active.info + " +25 pontos", varName('--neon-green'));
+        hp += 25;
+        showMsg(active.info, varName('--neon-green'));
     } else {
         hp -= 25;
         showMsg("ERRO! Essa escolha deixou o sistema vulnerável. 💀", varName('--neon-red'));
@@ -106,8 +111,8 @@ function play(choice) {
 
     updateUI();
 
-    if (score >= maxScore) 
-        return end(true);
+    // if (score >= maxScore)
+    //     return end(true);
 
     // se já encontrou todas as respostas certas OU errou
     const allCorrectFound =
@@ -116,12 +121,12 @@ function play(choice) {
     if (allCorrectFound || hp <= 0) {
         canPlay = false;
     }
-        
-        // AGORA AVANÇA: Espera 3 segundos para o jogador ler o feedback antes do próximo
-        setTimeout(() => {
-            if (hp > 0) next();
-            else end();
-        }, 4000);
+
+    // AGORA AVANÇA: Espera 3 segundos para o jogador ler o feedback antes do próximo
+    setTimeout(() => {
+        if (hp > 0) next();
+        else end();
+    }, 4000);
 }
 
 function showMsg(txt, color) {
@@ -132,24 +137,28 @@ function showMsg(txt, color) {
 
 function updateUI() {
     document.getElementById('hp-fill').style.width = hp + "%";
-    document.getElementById('score').innerText = "PONTOS: " + score;
+    // document.getElementById('score').innerText = "PONTOS: " + score;
+    document.getElementById('score').innerText = "Tempo: " + time + "s"
 }
 
 function end(win = false) {
-    if (win){
+    if (win) {
         document.getElementById('scenario-text').innerText = "Missão Completa! SISTEMA SEGURO!";
         document.getElementById('msg').innerText = "Parabéns! Antigiste " + score + " pontos."
         // adicionar butoes apos ganhar para os outros jogos
         document.getElementById('games-links').style.display = 'block';
     } else {
         document.getElementById('scenario-text').innerText = "SISTEMA COMPROMETIDO! ";
-        document.getElementById('msg').innerText = "A tua pontuação final: " + score;
-        document.getElementById('games-links').style.display = 'none';
+        document.getElementById('msg').innerText = "GAME OVER!!! Tenta Outra vez, ou experimenta um dos jogos em baixo.";
+        document.getElementById('games-links').style.display = 'block';
     }
     document.getElementById('start-btn').style.display = 'block';
     document.getElementById('start-btn').innerText = "RECOMEÇAR TREINO";
     document.getElementById('action-buttons').style.display = 'none';
     document.getElementById('score').style.display = 'none';
+
+    clearInterval(timer);
+
     active = null;
     canPlay = false;
 }
@@ -157,4 +166,17 @@ function end(win = false) {
 // Função auxiliar para ler cores do CSS
 function varName(name) {
     return getComputedStyle(document.documentElement).getPropertyValue(name);
+}
+
+function startTimer() {
+    timer = setInterval(() => {
+        time--;
+
+        document.getElementById('score').innerText = "Tempo: " + time + "s";
+
+        if (time <= 0) {
+            clearInterval(timer);
+            end(true);
+        }
+    }, 1000);
 }

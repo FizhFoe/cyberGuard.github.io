@@ -75,7 +75,7 @@ let timer;
 
 function initGame() {
     hp = 100;
-    time = 60;
+    time = 30;
     // score = 0;
     document.getElementById('start-btn').style.display = 'none';
     document.getElementById('action-buttons').style.display = 'grid';
@@ -100,7 +100,7 @@ function next() {
     // Escolhe um cenário aleatório
     document.getElementById('scenario-text').innerText = active.text;
     if (active.solutions.length > 1) {
-        document.getElementById('msg').innerText = "Atenção: cenário com mais proteções!!";
+        document.getElementById('msg').innerText = "Atenção: cenário tem duas proteções!!";
     } else {
         document.getElementById('msg').innerText = "Escolhe a melhor defesa...";
     }
@@ -119,7 +119,8 @@ function play(choice) {
     active.used.push(choice);
 
     if (active.solutions.includes(choice)) {
-        hp += 25;
+        // hp += 25;
+        hp = Math.min(100, hp + 25);
         showMsg(active.info, varName('--neon-green'));
     } else {
         hp -= 25;
@@ -128,22 +129,14 @@ function play(choice) {
 
     updateUI();
 
-    // if (score >= maxScore)
-    //     return end(true);
+    if (hp <= 0)
+        return end(false);
 
-    // se já encontrou todas as respostas certas OU errou
-    const allCorrectFound =
-        active.solutions.every(sol => active.used.includes(sol));
-
-    if (allCorrectFound || hp <= 0) {
-        canPlay = false;
-    }
 
     // AGORA AVANÇA: Espera 3 segundos para o jogador ler o feedback antes do próximo
     setTimeout(() => {
-        if (hp > 0) next();
-        else end();
-    }, 4000);
+        next();
+    }, 2500);
 }
 
 function showMsg(txt, color) {
@@ -163,13 +156,13 @@ function end(win = false) {
     let msg = "";
     if (win) {
         if (hp >= 75) {
-            msg = "🟢 SISTEMA MUITO SEGURO! Excelente defesa!";
+            msg = '<i class="fa-solid fa-circle" style="color: green;"></i> SISTEMA SEGURO! Excelente defesa!';
         }
         else if (hp >= 50) {
-            msg = "🟡 SISTEMA MODERADAMENTE SEGURO. Ainda resistente.";
+            msg = "<i class='fa-solid fa-circle' style='color: yellow;'></i> SISTEMA MODERADAMENTE SEGURO. Ainda resistente.";
         }
         else {
-            msg = "🟠 SISTEMA GANHOU O JOGO MAS FICOU FRACO!";
+            msg = "<i class='fa-solid fa-circle' style='color: red''></i> SISTEMA GANHOU O JOGO MAS FICOU FRACO!";
         }
     } else {
         if (hp <= 0) {
@@ -183,14 +176,13 @@ function end(win = false) {
         }
     }
 
+    document.getElementById('games-links').style.display = 'block';
     document.getElementById('scenario-text').innerText = win ? "Missão Completa!" : "Game Over!!";
-    document.getElementById('msg').innerText = msg;
+    document.getElementById('msg').innerHTML = msg;
 
-    document.getElementById('start-btn').style.display = 'block';
-    document.getElementById('start-btn').innerText = "Jogar Novamente";
+    document.getElementById('start-btn').style.display = 'none';
     document.getElementById('action-buttons').style.display = 'none';
     document.getElementById('score').style.display = 'none';
-
 
     active = null;
     canPlay = false;
@@ -209,7 +201,7 @@ function startTimer() {
 
         if (time <= 0) {
             clearInterval(timer);
-            end(true);
+            return end(true);
         }
     }, 1000);
 }

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CyberGuard: Missão</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <div id="game-card">
+            <div id="stats-bar">
+                <div>
+                    <span>🛡️ Defesa do Sistema</span>
+                    <div class="hp-container">
+                        <div id="hp-fill"></div>
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <span id="score">PONTOS: 0</span>
+                </div>
+            </div>
+            <div id="how-to">
+                <h2>Como Jogar</h2>
+                <p>
+                    O teu objetivo é proteger o sistema contra ameaças digitais. Em cada ronda aparece uma situação de risco
+                    e tens de escolher a melhor defesa possível.
+                </p>
+                <p>
+                    Cada resposta correta dá-te pontos e ajuda a manter o sistema seguro. Se escolheres mal, perdes vida
+                    (HP) e o sistema fica mais vulnerável.
+                </p>
+                <p>
+                    Sobrevive o máximo que conseguires, soma a maior pontuação e prova que és um verdadeiro CyberGuard!!!
+                </p>
+            </div>
+            <div id="scenario-text">Clica no Start para protegeres o teu setup!</div>
+
+
+            <button id="start-btn" onclick="initGame()">
+                <i class="fa-solid fa-play"></i>
+                START
+            </button>
+            <p id="msg"></p>
+            <h3 id="ready-title">Estás pronto?</h3>
+
+
+            <div class="grid-buttons" id="action-buttons">
+                <button class="btn-firewall" onclick="play('firewall')">
+                    <i class="fa-solid fa-fire" style="color: rgb(255, 212, 59);"></i>
+                    Firewall</button>
+                <button class="btn-vpn" onclick="play('vpn')">🌐 VPN</button>
+                <button class="btn-antivirus" onclick="play('antivirus')"><img src="images/shield.svg" alt="Escudo"
+                        width="10%"> Antivírus</button>
+                <button class="btn-crypto" onclick="play('encryption')">🔐 Criptografia</button>
+                <button class="btn-delete" onclick="play('delete')">Apagar/Ignorar</button>
+            </div>
+        </div>
+        <div id="game-card">
+            <div class="open-mission">
+                <div class="mission">
+                    <h3>Missão</h3>
+                    <p>
+                        O teu setup está sob ataque e só tu podes proteger. Hackers, links suspeitos, scams e ficheiros
+                        perigosos estão por todo o lado.</p>
+                    <p>
+                        A tua missão é tomar as decisões certas, escolher a melhor defesa e impedir que o sistema seja
+                        crackeado.</p>
+                    <p>
+                        Cada escolha pode salvar o jogo... ou destruir tudo 👀
+                        Mostra as tua skills de verdadeiro CyberGuard!
+                    </p>
+                </div>
+                <hr>
+                <div class="score">
+                    <h3>Sistema de Pontuação</h3>
+                    <p><i class="fa-regular fa-circle-check" style="color: greenyellow;"></i> Resposta Certa = +25
+                        pontos</p>
+                    <p><i class="fa-regular fa-circle-xmark" style="color: var(--neon-pink);"></i> Resposta Errada = -25
+                        HP</p>
+                    <p><i class="fa-solid fa-skull"></i> Se o HP chegar a 0, sistema comprometido</p>
+                    <p>
+                        Sobrevive o máximo possível e tenta alcançar
+                        a pontuação mais alta!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,141 @@
+* {
+    --neon-blue: #00d4ff;
+    --neon-red: #8b1b1b;
+    --neon-pink: #ff007a;
+    --neon-green: #39ff14;
+    --dark-bg: #2b2b2b;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--dark-bg);
+    color: #fff;
+}
+
+
+#game-card {
+    background: #6d6d6d;
+    border: 2px solid var(--neon-blue);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+    padding: 30px;
+    border-radius: 20px;
+    width: 25%;
+    max-width: 600px;
+    height: auto;
+    min-height: 350px;
+}
+
+#game-card:first-child {
+    width: 550px;
+}
+
+#stats-bar {
+    display: none;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.hp-container {
+    background: #333;
+    width: 250px;
+    height: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#hp-fill {
+    background: var(--neon-pink);
+    width: 100%;
+    height: 100%;
+    transition: 0.5s;
+}
+
+#ready-title {
+    color: #faeaca;
+}
+
+#scenario-text {
+    font-size: 1.1rem;
+    /* min-height: 80px; */
+    margin-top: 30px;
+    line-height: 1.5;
+    word-break: break-word;
+    color: #e0e0e0;
+    /* font-weight: 500; */
+}
+
+.grid-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 2rem;
+}
+
+#action-buttons {
+    display: none;
+}
+
+button {
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: 0.2s;
+}
+
+#start-btn {
+    display: block;
+    width: 75%;
+    margin: 20px auto;
+    background: var(--neon-green);
+    color: black;
+    font-size: 1.2rem;
+}
+
+.btn-firewall {
+    background: #ff4b2b;
+    color: white;
+}
+
+.btn-vpn {
+    background: #a4508b;
+    color: white;
+}
+
+.btn-antivirus {
+    background: #23d5ab;
+    color: white;
+}
+
+.btn-crypto {
+    background: #ffcc33;
+    color: black;
+}
+
+button:hover {
+    filter: brightness(1.2);
+    transform: translateY(-2px);
+}
+
+#msg {
+    margin-top: 20px;
+    font-weight: bold;
+    min-height: 25px;
+    text-align: center;
+    font-size: 1.1rem;
+    line-height: 1.5;
+}

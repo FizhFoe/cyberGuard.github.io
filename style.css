@@ -139,3 +139,18 @@ button:hover {
     font-size: 1.1rem;
     line-height: 1.5;
 }
+
+#reward-links {
+    display: none;
+    margin-top: 20px;
+    text-align: center;
+}
+
+#reward-links button {
+    margin: 8px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
